@@ -1,0 +1,120 @@
+====================================================
+INTRODUCCIÓN A METASPLOIT Y RUTA DE APRENDIZAJE
+====================================================
+
+Nota importante:
+Metasploit es una herramienta de pentesting ético. Úsala únicamente
+en máquinas propias, laboratorios autorizados (Metasploitable,
+HackTheBox, TryHackMe) o en pruebas con permiso explícito por
+escrito. Usarla contra sistemas de terceros sin autorización es
+delito en la mayoría de países.
+
+----------------------------------------------------
+¿QUÉ ES METASPLOIT?
+----------------------------------------------------
+Es un framework (conjunto de herramientas) usado para:
+- Buscar y validar vulnerabilidades conocidas
+- Practicar cómo funcionan los exploits en un entorno controlado
+- Automatizar tareas de post-explotación en laboratorios de
+  entrenamiento
+- Generar payloads de prueba
+
+Componentes principales:
+- msfconsole   -> interfaz principal de línea de comandos
+- Exploits     -> módulos que aprovechan vulnerabilidades conocidas
+- Payloads     -> código que se ejecuta tras un exploit exitoso
+- Auxiliary    -> módulos de escaneo, fuerza bruta, recolección de info
+- Post         -> módulos de post-explotación (en labs propios)
+- Meterpreter  -> payload avanzado interactivo
+
+----------------------------------------------------
+SEMANA 1 — INSTALACIÓN Y ENTORNO
+----------------------------------------------------
+1. Instala Metasploit (en Kali Linux ya viene preinstalado):
+   sudo apt update && sudo apt install metasploit-framework
+
+2. Monta un laboratorio de práctica legal:
+   - Descarga "Metasploitable2" o "Metasploitable3" (máquina virtual
+     diseñada a propósito con vulnerabilidades para practicar)
+   - Configúrala en una red aislada (VirtualBox/VMware, red NAT/host-only)
+
+3. Abre la consola:
+   msfconsole
+
+4. Comandos básicos para familiarizarte:
+   help              -> lista de comandos
+   search <término>  -> buscar módulos (ej: search ftp)
+   show exploits      -> lista todos los exploits disponibles
+   show payloads       -> lista payloads disponibles
+
+----------------------------------------------------
+SEMANA 2 — ESTRUCTURA DE UN MÓDULO
+----------------------------------------------------
+1. Selecciona un módulo:
+   use <ruta_del_modulo>
+
+2. Ver opciones configurables:
+   show options
+
+3. Configurar parámetros:
+   set RHOSTS <ip_objetivo>
+   set LHOST <tu_ip>
+   set PAYLOAD <payload>
+
+4. Ejecutar:
+   run
+   (o "exploit" en módulos de tipo exploit)
+
+5. Practica primero SOLO con módulos "auxiliary" (escaneo,
+   enumeración) antes de tocar exploits, para entender el flujo
+   sin causar cambios en el sistema objetivo. Ejemplo:
+   use auxiliary/scanner/portscan/tcp
+   set RHOSTS <ip_de_tu_maquina_lab>
+   run
+
+----------------------------------------------------
+SEMANA 3 — INTEGRACIÓN CON NMAP
+----------------------------------------------------
+1. Metasploit puede importar resultados de Nmap:
+   db_nmap -sV <ip_del_lab>
+
+2. Ver hosts y servicios descubiertos:
+   hosts
+   services
+
+3. Buscar módulos relacionados con un servicio detectado:
+   search <nombre_del_servicio_o_version>
+
+Esto conecta directamente con lo que practiques en el archivo
+scripts_nmap.txt: primero reconoces con Nmap, luego investigas en
+Metasploit qué módulos existen para ese servicio (solo con fines
+educativos, en tu laboratorio).
+
+----------------------------------------------------
+SEMANA 4 — PRÁCTICA GUIADA EN LABORATORIO
+----------------------------------------------------
+1. Usa Metasploitable2/3 como objetivo de práctica.
+2. Sigue guías oficiales y walkthroughs educativos paso a paso
+   (Rapid7 tiene documentación oficial extensa).
+3. Aprende sobre:
+   - Meterpreter: comandos básicos (sysinfo, ls, sessions)
+   - Módulos post-explotación en tu propia VM
+   - Cómo se documenta un hallazgo (reporte de pentesting)
+
+----------------------------------------------------
+RECURSOS RECOMENDADOS
+----------------------------------------------------
+- Documentación oficial: https://docs.metasploit.com/
+- Rapid7 Metasploit Unleashed (curso gratuito oficial):
+  https://www.offsec.com/metasploit-unleashed/
+- Laboratorios legales: TryHackMe (ruta "Metasploit"), HackTheBox Academy
+- Máquina de práctica: Metasploitable2/3 (Rapid7, oficial y gratuita)
+
+----------------------------------------------------
+RECOMENDACIÓN DE ORDEN DE ESTUDIO GENERAL
+----------------------------------------------------
+1. Fundamentos de redes (TCP/IP, puertos, protocolos)
+2. Nmap y NSE (archivo scripts_nmap.txt)
+3. Metasploit básico (este archivo)
+4. Certificaciones/cursos estructurados: eJPT, luego OSCP
+   (te dan un camino guiado y legal para avanzar)
